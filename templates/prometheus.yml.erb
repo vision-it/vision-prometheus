@@ -1,0 +1,13 @@
+# This file is managed by Puppet
+<% require 'yaml' -%>
+<% global_config = scope.lookupvar('vision_prometheus::global_config') -%>
+<% scrape_configs = scope.lookupvar('vision_prometheus::scrape_configs') -%>
+<% full_config = {
+  'global'=>global_config,
+  'scrape_configs'=>scrape_configs
+  }
+-%>
+
+<%=
+full_config.to_yaml().gsub(/source_labels: ".+?"/) { |x| x.gsub('"', '') }
+-%>

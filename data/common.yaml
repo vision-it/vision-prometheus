@@ -1,0 +1,4 @@
+---
+vision_prometheus::global_config:
+  'scrape_interval': '15s'
+  'evaluation_interval': '15s'
