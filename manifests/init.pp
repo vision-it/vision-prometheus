@@ -16,6 +16,7 @@
 
 class vision_prometheus (
 
+  String $external_url,
   Hash $global_config,
   Array $scrape_configs,
 
@@ -29,6 +30,13 @@ class vision_prometheus (
     ensure     => running,
     hasrestart => true,
     require    => Package['prometheus'],
+  }
+
+  file { '/etc/default/prometheus':
+    ensure       => file,
+    content      => template('vision_prometheus/default.erb'),
+    require      => Package['prometheus'],
+    notify       => Service['prometheus'],
   }
 
   file { '/etc/prometheus/prometheus.yml':

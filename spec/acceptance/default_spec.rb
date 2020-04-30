@@ -16,7 +16,12 @@ describe 'vision_prometheus' do
       it { is_expected.to be_installed }
     end
   end
-  context 'test hiera data' do
+  context 'config provisioned' do
+    describe file('/etc/default/prometheus') do
+      it { is_expected.to exist }
+      its(:content) { is_expected.to match 'Puppet' }
+      its(:content) { is_expected.to match 'localhost' }
+    end
     describe file('/etc/prometheus/prometheus.yml') do
       it { is_expected.to exist }
       its(:content) { is_expected.to match 'Puppet' }
