@@ -4,5 +4,8 @@ fixtures:
     stdlib:
       ref: "v6.2.0"
       repo: "https://github.com/puppetlabs/puppetlabs-stdlib"
+    mysql:
+      ref: "v10.4.0"
+      repo: "https://github.com/puppetlabs/puppetlabs-mysql"
   symlinks:
     vision_prometheus: '#{source_dir}'

@@ -1,4 +1,5 @@
 ---
+vision_prometheus::exporter::mysql::mysql_password: 'foobar'
 vision_prometheus::global_config:
   'scrape_interval': '15s'
   'evaluation_interval': '15s'
