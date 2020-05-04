@@ -33,18 +33,17 @@ class vision_prometheus (
   }
 
   file { '/etc/default/prometheus':
-    ensure       => file,
-    content      => template('vision_prometheus/default.erb'),
-    require      => Package['prometheus'],
-    notify       => Service['prometheus'],
+    ensure  => file,
+    content => template('vision_prometheus/default.erb'),
+    require => Package['prometheus'],
+    notify  => Service['prometheus'],
   }
 
   file { '/etc/prometheus/prometheus.yml':
-    ensure       => file,
-    content      => template('vision_prometheus/prometheus.yml.erb'),
-    require      => Package['prometheus'],
-    notify       => Service['prometheus'],
-    validate_cmd => '/usr/bin/promtool check config %',
+    ensure  => file,
+    content => template('vision_prometheus/prometheus.yml.erb'),
+    require => Package['prometheus'],
+    notify  => Service['prometheus'],
   }
 
 }
