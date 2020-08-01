@@ -1,10 +1,10 @@
 require 'spec_helper_acceptance'
 
-describe 'vision_prometheus' do
+describe 'vision_prometheus::server' do
   context 'with defaults' do
     it 'run idempotently' do
       pp = <<-FILE
-        class { 'vision_prometheus': }
+        class { 'vision_prometheus::server': }
       FILE
 
       apply_manifest(pp, catch_failures: true)

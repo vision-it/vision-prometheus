@@ -1,10 +1,10 @@
 require 'spec_helper_acceptance'
 
-describe 'vision_prometheus::exporter::node' do
+describe 'vision_prometheus::client' do
   context 'with defaults' do
     it 'run idempotently' do
       pp = <<-FILE
-        class { 'vision_prometheus::exporter::node':
+        class { 'vision_prometheus::client':
         }
       FILE
 
@@ -21,11 +21,6 @@ describe 'vision_prometheus::exporter::node' do
   context 'config provisioned' do
     describe file('/etc/default/prometheus-node-exporter') do
       it { is_expected.to exist }
-    end
-  end
-  context 'system running' do
-    describe port(9100) do
-      it { is_expected.to be_listening }
     end
   end
 end

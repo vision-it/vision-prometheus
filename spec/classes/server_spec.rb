@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'hiera'
 
-describe 'vision_prometheus' do
+describe 'vision_prometheus::server' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do

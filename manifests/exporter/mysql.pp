@@ -4,7 +4,7 @@
 # Parameters
 # ----------
 #
-# @param mysql_password Password of Prometheus SQL user
+# @param _password Password of Prometheus SQL user
 #
 # Examples
 # --------
@@ -15,7 +15,7 @@
 
 class vision_prometheus::exporter::mysql (
 
-  String $mysql_password,
+  Sensitive[String] $password,
 
 ) {
 
@@ -49,7 +49,7 @@ class vision_prometheus::exporter::mysql (
   }
 
   exec { 'prometheus_user':
-    command     => "/usr/bin/mysql --defaults-file='/root/.my.cnf' -e \" CREATE USER IF NOT EXISTS 'prometheus'@'localhost' IDENTIFIED BY '${mysql_password}' WITH MAX_USER_CONNECTIONS 2;\"",
+    command     => "/usr/bin/mysql --defaults-file='/root/.my.cnf' -e \" CREATE USER IF NOT EXISTS 'prometheus'@'localhost' IDENTIFIED BY '${password.unwrap}' WITH MAX_USER_CONNECTIONS 2;\"",
     refreshonly => true,
   }
 

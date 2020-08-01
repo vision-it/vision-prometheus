@@ -1,4 +1,4 @@
-# Class: vision_prometheus
+# Class: vision_prometheus::server
 # ===========================
 #
 # Parameters
@@ -11,14 +11,14 @@
 # --------
 #
 # @example
-# contain ::vision_prometheus
+# contain ::vision_prometheus::server
 #
 
-class vision_prometheus (
+class vision_prometheus::server (
 
-  String $external_url,
   Hash $global_config,
-  Array $scrape_configs,
+  String $external_url = "${::fqdn}:9090",
+  Optional[Array] $scrape_configs = undef,
 
 ) {
 

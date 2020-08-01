@@ -17,6 +17,7 @@ mod 'vision_prometheus',
 Include in a role/profile:
 
 ```puppet
-contain ::vision_prometheus
+contain ::vision_prometheus::server
+contain ::vision_prometheus::client
 ```
 
