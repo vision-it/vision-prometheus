@@ -28,5 +28,8 @@ describe 'vision_prometheus::server' do
       its(:content) { is_expected.to match 'evaluation_interval' }
       its(:content) { is_expected.to match 'Foobar' }
     end
+    describe command('/usr/bin/promtool check config /etc/prometheus/prometheus.yml') do
+      its(:exit_status) { is_expected.to eq 0 }
+    end
   end
 end
