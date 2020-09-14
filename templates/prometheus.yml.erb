@@ -1,13 +1,27 @@
 # This file is managed by Puppet
-<% require 'yaml' -%>
-<% global_config = scope.lookupvar('vision_prometheus::server::global_config') -%>
-<% scrape_configs = scope.lookupvar('vision_prometheus::server::scrape_configs') -%>
-<% full_config = {
-  'global'=>global_config,
-  'scrape_configs'=>scrape_configs
-  }
--%>
+---
+global:
+  scrape_interval: '15s'
+  evaluation_interval: '15s'
 
-<%=
-full_config.to_yaml().gsub(/source_labels: ".+?"/) { |x| x.gsub('"', '') }
--%>
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['localhost:9093']
+
+rule_files:
+  - "rules.d/*.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+  - job_name: 'consul'
+    consul_sd_configs:
+      - server: 'localhost:8500'
+    relabel_configs:
+      - source_labels: ['__meta_consul_tags']
+        regex: '.*,metrics,.*'
+        action: 'keep'
+      - source_labels: ['__meta_consul_service']
+        target_label: 'job'

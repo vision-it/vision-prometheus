@@ -1,0 +1,9 @@
+# This file is managed by Puppet
+groups:
+  - name: moderate
+    rules:
+    - alert: security
+      expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
+      labels: 
+        severity: critical
+

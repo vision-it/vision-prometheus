@@ -1,0 +1,24 @@
+# This file is managed by Puppet
+
+---
+global:
+  smtp_smarthost: '<%= @smtp_smarthost %>'
+  smtp_from: 'alertmanager@example.org'
+  smtp_require_tls: false
+
+templates: 
+  - '/etc/prometheus/alertmanager_templates/*.tmpl'
+
+receivers:
+- name: 'vision'
+  email_configs:
+  - to: '<%= @smtp_receiver %>'
+
+route:
+  repeat_interval: 24h
+  receiver: vision    
+  routes:
+  - match:
+      severity: critical
+
+
