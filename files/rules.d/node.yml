@@ -1,9 +1,75 @@
 # This file is managed by Puppet
 groups:
-  - name: moderate
+  - name: security_apt
     rules:
-    - alert: security
+    - alert: security_apt
       expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
       labels: 
         severity: critical
+      annotations:
+        summary: "Security Update pending"
+        description: "There is a Debian security update pending."
 
+  - name: HW_Monitoring
+    rules:
+
+    - alert: HostOutOfDiskSpace
+      expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 15
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Host out of disk space (instance {{ $labels.instance }})"
+        description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: HostOutOfMemory
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 15
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Host out of memory (instance {{ $labels.instance }})"
+        description: "Node memory is filling up (< 15% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: HostHighCpuLoad
+      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+      for: 15m
+      labels:
+        severity: critica
+      annotations:
+        summary: "Host high CPU load (instance {{ $labels.instance }})"
+        description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+
+  - name: Network_Monitoring
+    rules:
+
+    - alert: HostUnusualNetworkThroughputIn
+      expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 89
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Host unusual network throughput in (instance {{ $labels.instance }})"
+        description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: HostUnusualNetworkThroughputOut
+      expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 89
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Host unusual network throughput out (instance {{ $labels.instance }})"
+        description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+  - name: systemd
+    rules:
+
+    - alert: HostSystemdServiceCrashed
+      expr: node_systemd_unit_state{state="failed"} == 1
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Host SystemD service crashed (instance {{ $labels.instance }})"
+        description: "SystemD service crashed\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

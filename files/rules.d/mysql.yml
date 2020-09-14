@@ -1,0 +1,31 @@
+# This file is managed by Puppet
+groups:
+  - name: mysql_Monitoring
+    rules:
+
+    - alert: MysqlDown
+      expr: mysql_up == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "MySQL down (instance {{ $labels.instance }})"
+        description: "MySQL instance is down on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: MysqlTooManyConnections
+      expr: avg by (instance) (max_over_time(mysql_global_status_threads_connected[5m])) / avg by (instance) (mysql_global_variables_max_connections) * 100 > 80
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "MySQL too many connections (instance {{ $labels.instance }})"
+        description: "More than 80% of MySQL connections are in use on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: MysqlHighThreadsRunning
+      expr: avg by (instance) (max_over_time(mysql_global_status_threads_running[5m])) / avg by (instance) (mysql_global_variables_max_connections) * 100 > 60
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "MySQL high threads running (instance {{ $labels.instance }})"
+        description: "More than 60% of MySQL connections are in running state on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
