@@ -4,8 +4,6 @@
 # Parameters
 # ----------
 #
-# @param global_config Global Prometheus config as Hash
-# @param scrape_configs Scrape Configs Hashes in an Array
 #
 # Examples
 # --------
@@ -16,9 +14,7 @@
 
 class vision_prometheus::server (
 
-  Hash $global_config,
   String $external_url = "${::fqdn}:9090",
-  Optional[Array] $scrape_configs = undef,
 
 ) {
 
@@ -46,4 +42,13 @@ class vision_prometheus::server (
     notify  => Service['prometheus'],
   }
 
+  file { '/etc/prometheus/rules.d':
+    ensure  => directory,
+    recurse => true,
+    purge   => true,
+    source  => 'puppet:///modules/vision_prometheus/rules.d',
+    mode    => '1755',
+    require => Package['prometheus'],
+    notify  => Service['prometheus'],
+  }
 }

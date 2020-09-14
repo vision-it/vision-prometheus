@@ -1,22 +1,4 @@
 ---
-vision_prometheus::server::global_config:
-  'scrape_interval': '15s'
-  'evaluation_interval': '15s'
-
-vision_prometheus::server::scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-    - targets: ['localhost:9090']
-  - job_name: 'consul'
-    consul_sd_configs:
-      - server: 'localhost:8500'
-    relabel_configs:
-      - source_labels: '[__meta_consul_tags]'
-        regex: '.*,metrics,.*'
-        action: 'keep'
-      - source_labels: '[__meta_consul_service]'
-        target_label: 'job'
-
 lookup_options:
   'vision_prometheus::exporter::mysql::password':
     convert_to: 'Sensitive'
