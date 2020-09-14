@@ -26,7 +26,7 @@ describe 'vision_prometheus::server' do
       it { is_expected.to exist }
       its(:content) { is_expected.to match 'Puppet' }
       its(:content) { is_expected.to match 'evaluation_interval' }
-      its(:content) { is_expected.to match 'Foobar' }
+      its(:content) { is_expected.to match 'consul' }
     end
     describe command('/usr/bin/promtool check config /etc/prometheus/prometheus.yml') do
       its(:exit_status) { is_expected.to eq 0 }
