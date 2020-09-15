@@ -14,7 +14,7 @@ groups:
     rules:
 
     - alert: HostOutOfDiskSpace
-      expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 15
+      expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 20
       for: 15m
       labels:
         severity: critical
@@ -23,7 +23,7 @@ groups:
         description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 15
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 20
       for: 15m
       labels:
         severity: critical
@@ -65,10 +65,10 @@ groups:
   - name: systemd
     rules:
 
-    - alert: HostSystemdServiceCrashed
-      expr: node_systemd_unit_state{state="failed"} == 1
-      for: 5m
-      labels:
+    - alert: SystemdCheckup
+      expr: node_systemd_system_running == 0
+      for: 15m
+      labels: 
         severity: critical
       annotations:
         summary: "Host SystemD service crashed (instance {{ $labels.instance }})"
