@@ -5,46 +5,41 @@ groups:
 
     - alert: PrometheusTargetMissing
       expr: up == 0
-      for: 5m
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Prometheus target missing (instance {{ $labels.instance }})"
-        description: "A Prometheus target has disappeared. An exporter might be crashed.\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "A Prometheus target has disappeared. An exporter might be crashed. {{ $labels.job }} on {{$labels.instance}}"
 
     - alert: PrometheusJobMissing
-      # you can define the job names
-      expr: absent(up{job="node"})
-      for: 5m
+      # Fill in essential jobs
+      expr: absent(up{job=~"node|prometheus|mysql"})
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Prometheus job missing (instance {{ $labels.instance }})"
-        description: "A Prometheus job has disappeared\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "A Prometheus job has disappeared.  {{ $labels.job }} on {{ $labels.instance}}"
 
     - alert: PrometheusConfigurationReloadFailure
       expr: prometheus_config_last_reload_successful != 1
-      for: 5m
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Prometheus configuration reload failure (instance {{ $labels.instance }})"
-        description: "Prometheus configuration reload error\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Prometheus configuration reload error. {{ $labels.job }} on {{ $labels.instance}}"
  
     - alert: PrometheusAlertmanagerConfigurationReloadFailure
       expr: alertmanager_config_last_reload_successful != 1
-      for: 5m
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Prometheus AlertManager configuration reload failure (instance {{ $labels.instance }})"
-        description: "AlertManager configuration reload error\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "AlertManager configuration reload error."
 
     - alert: PrometheusNotConnectedToAlertmanager
       expr: prometheus_notifications_alertmanagers_discovered < 1
-      for: 5m
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Prometheus not connected to alertmanager (instance {{ $labels.instance }})"
-        description: "Prometheus cannot connect the alertmanager\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Prometheus cannot connect the alertmanager."

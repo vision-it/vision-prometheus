@@ -2,25 +2,25 @@
 groups:
   - name: security_apt
     rules:
+
     - alert: security_apt
       expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
       labels: 
         severity: critical
       annotations:
-        summary: "Security Update pending"
-        description: "There is a Debian security update pending."
+        description: "There is a debian security update pending on {{ $labels.instance }}."
 
   - name: HW_Monitoring
     rules:
 
     - alert: HostOutOfDiskSpace
+      #fill in mountpoint what disk to meter
       expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 20
       for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Host out of disk space (instance {{ $labels.instance }})"
-        description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Disk is almost full (< 15% left) on {{ $labels.instance }}"
 
     - alert: HostOutOfMemory
       expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 20
@@ -28,39 +28,35 @@ groups:
       labels:
         severity: critical
       annotations:
-        summary: "Host out of memory (instance {{ $labels.instance }})"
-        description: "Node memory is filling up (< 15% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Node memory is filling up (< 15% left) on {{ $labels.instance }}"
 
     - alert: HostHighCpuLoad
-      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[15m])) * 100) > 80
       for: 15m
       labels:
-        severity: critica
+        severity: critical
       annotations:
-        summary: "Host high CPU load (instance {{ $labels.instance }})"
-        description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "CPU load is > 80% on {{ $labels.instance }}"
 
 
   - name: Network_Monitoring
     rules:
 
     - alert: HostUnusualNetworkThroughputIn
-      expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 89
-      for: 5m
+      expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 1.5
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Host unusual network throughput in (instance {{ $labels.instance }})"
-        description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Host network interfaces are probably receiving too much data (> 1.5 MB/s) on {{ $labels.instance }}"
 
     - alert: HostUnusualNetworkThroughputOut
-      expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 89
-      for: 5m
+      expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 1.5
+      for: 15m
       labels:
         severity: critical
       annotations:
-        summary: "Host unusual network throughput out (instance {{ $labels.instance }})"
-        description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "Host network interfaces are probably sending too much data (> 1.5 MB/s) on {{ $labels.instance }}"
 
   - name: systemd
     rules:
@@ -71,5 +67,4 @@ groups:
       labels: 
         severity: critical
       annotations:
-        summary: "Host SystemD service crashed (instance {{ $labels.instance }})"
-        description: "SystemD service crashed\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        description: "SystemD service {{ $labels.name }} crashed on {{ $labels.instance }}"
