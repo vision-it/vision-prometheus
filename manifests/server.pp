@@ -18,6 +18,8 @@ class vision_prometheus::server (
 
 ) {
 
+  contain vision_prometheus::alertmanager
+
   package { 'prometheus':
     ensure => present,
   }
