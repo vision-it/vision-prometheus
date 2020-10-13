@@ -21,7 +21,6 @@ class vision_prometheus::exporter::mysql (
 
   package { 'prometheus-mysqld-exporter':
     ensure => present,
-    notify => Exec['prometheus_user'],
   }
 
   service { 'prometheus-mysqld-exporter':
@@ -48,9 +47,11 @@ class vision_prometheus::exporter::mysql (
     require => Package['prometheus-mysqld-exporter'],
   }
 
-  exec { 'prometheus_user':
-    command     => "/usr/bin/mysql --defaults-file='/root/.my.cnf' -e \" CREATE USER IF NOT EXISTS 'prometheus'@'localhost' IDENTIFIED BY '${password.unwrap}' WITH MAX_USER_CONNECTIONS 2;\"",
-    refreshonly => true,
+  mysql_user{ 'prometheus@localhost':
+    ensure               => present,
+    password_hash        => mysql::password($password.unwrap),
+    max_user_connections => 2,
+    plugin               => 'mysql_native_password',
   }
 
   mysql_grant { 'prometheus@localhost/*.*':
@@ -58,6 +59,6 @@ class vision_prometheus::exporter::mysql (
     user       => 'prometheus@localhost',
     table      => '*.*',
     privileges => [ 'PROCESS', 'SELECT', 'REPLICATION CLIENT' ],
-    require    => Exec['prometheus_user'],
+    require    => Mysql_User['prometheus@localhost'],
   }
 }
