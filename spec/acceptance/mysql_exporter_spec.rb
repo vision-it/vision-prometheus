@@ -18,14 +18,12 @@ describe 'vision_prometheus::exporter::mysql' do
       pp = <<-FILE
         class { '::mysql::server':
            package_name  => 'mariadb-server',
-           root_password => 'foobar',
         }
 
         class { 'vision_prometheus::exporter::mysql':
         }
       FILE
 
-      apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_failures: true)
     end
   end
@@ -43,7 +41,6 @@ describe 'vision_prometheus::exporter::mysql' do
     describe file('/etc/mysql/prometheus.cnf') do
       it { is_expected.to exist }
       its(:content) { is_expected.to match 'Puppet' }
-      its(:content) { is_expected.to match 'foobar' }
     end
   end
 

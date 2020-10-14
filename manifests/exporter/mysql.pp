@@ -15,7 +15,7 @@
 
 class vision_prometheus::exporter::mysql (
 
-  Sensitive[String] $password,
+  Sensitive[String] $password = Sensitive(fqdn_rand_string(32)),
 
 ) {
 
@@ -33,7 +33,7 @@ class vision_prometheus::exporter::mysql (
     ensure  => file,
     owner   => root,
     group   => root,
-    mode    => '0644',
+    mode    => '0640',
     content => 'ARGS="--config.my-cnf /etc/mysql/prometheus.cnf"',
     require => Package['prometheus-mysqld-exporter'],
   }
@@ -42,7 +42,7 @@ class vision_prometheus::exporter::mysql (
     ensure  => file,
     owner   => root,
     group   => root,
-    mode    => '0644',
+    mode    => '0640',
     content => template('vision_prometheus/exporter/mysql.cnf.erb'),
     require => Package['prometheus-mysqld-exporter'],
   }
@@ -51,8 +51,7 @@ class vision_prometheus::exporter::mysql (
     ensure               => present,
     password_hash        => mysql::password($password.unwrap),
     max_user_connections => 2,
-    plugin               => 'mysql_native_password',
-  }
+   }
 
   mysql_grant { 'prometheus@localhost/*.*':
     ensure     => present,
