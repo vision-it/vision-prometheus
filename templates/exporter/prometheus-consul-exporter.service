@@ -1,0 +1,13 @@
+# This file is managed by Puppet
+[Unit]
+Description=Prometheus Consul Exporter
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/local/bin/consul_exporter
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectSystem=full
+
+[Install]
+WantedBy=default.target
