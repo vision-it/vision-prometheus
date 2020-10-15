@@ -1,4 +1,7 @@
 ---
+vision_prometheus::exporter::consul::archive_source: 'https://github.com/prometheus/consul_exporter/releases/download/v0.7.1/consul_exporter-0.7.1.linux-amd64.tar.gz'
+vision_prometheus::exporter::consul::archive_checksum: '92ffd37fb5f2350df21e7a688c28e7bb2882c309f613400eafdc411c818ec048'
+
 lookup_options:
   'vision_prometheus::exporter::mysql::password':
     convert_to: 'Sensitive'
