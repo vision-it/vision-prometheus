@@ -1,9 +1,68 @@
 # This file is managed by Puppet
 groups:
-  - name: moderate
+  - name: apt_monitoring
     rules:
-    - alert: security
-      expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
-      labels: 
-        severity: critical
 
+    - alert: AptSecurityUdpatesAvailable
+      expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
+      labels:
+        severity: critical
+      annotations:
+        description: "There is a debian security update pending on {{ $labels.instance }}."
+
+  - name: hw_monitoring
+    rules:
+
+    - alert: HostOutOfDiskSpace
+      expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 20
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "Disk is almost full (< 15% left) on {{ $labels.instance }}"
+
+    - alert: HostOutOfMemory
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 20
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "Node memory is filling up (< 15% left) on {{ $labels.instance }}"
+
+    - alert: HostHighCpuLoad
+      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[15m])) * 100) > 80
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "CPU load is > 80% on {{ $labels.instance }}"
+
+  - name: network_monitoring
+    rules:
+
+    - alert: HostUnusualNetworkThroughputIn
+      expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 1.5
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "Host network interfaces are probably receiving too much data (> 1.5 MB/s) on {{ $labels.instance }}"
+
+    - alert: HostUnusualNetworkThroughputOut
+      expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 1.5
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "Host network interfaces are probably sending too much data (> 1.5 MB/s) on {{ $labels.instance }}"
+
+  - name: systemd_monitoring
+    rules:
+
+    - alert: SystemdCheckup
+      expr: node_systemd_system_running == 0
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        description: "SystemD service {{ $labels.name }} crashed on {{ $labels.instance }}"
