@@ -12,7 +12,6 @@ groups:
         description: "A Prometheus target has disappeared. An exporter might be crashed. {{ $labels.job }} on {{$labels.instance}}"
 
     - alert: PrometheusJobMissing
-      # Fill in essential jobs
       expr: absent(up{job=~"node|prometheus|mysql|consul"})
       for: 15m
       labels:
@@ -27,7 +26,7 @@ groups:
         severity: critical
       annotations:
         description: "Prometheus configuration reload error. {{ $labels.job }} on {{ $labels.instance}}"
- 
+
     - alert: PrometheusAlertmanagerConfigurationReloadFailure
       expr: alertmanager_config_last_reload_successful != 1
       for: 15m

@@ -1,9 +1,9 @@
 # This file is managed by Puppet
 groups:
-  - name: security_apt
+  - name: apt_monitoring
     rules:
 
-    - alert: security_apt
+    - alert: AptSecurityUdpatesAvailable
       expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
       labels:
         severity: critical
@@ -36,7 +36,6 @@ groups:
         severity: critical
       annotations:
         description: "CPU load is > 80% on {{ $labels.instance }}"
-
 
   - name: network_monitoring
     rules:
