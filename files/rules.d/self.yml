@@ -1,6 +1,6 @@
 # This file is managed by Puppet
 groups:
-  - name: prometheus_check
+  - name: prometheus_monitoring
     rules:
 
     - alert: PrometheusTargetMissing
@@ -13,7 +13,7 @@ groups:
 
     - alert: PrometheusJobMissing
       # Fill in essential jobs
-      expr: absent(up{job=~"node|prometheus|mysql"})
+      expr: absent(up{job=~"node|prometheus|mysql|consul"})
       for: 15m
       labels:
         severity: critical

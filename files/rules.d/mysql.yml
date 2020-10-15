@@ -1,6 +1,6 @@
 # This file is managed by Puppet
 groups:
-  - name: mysql_Monitoring
+  - name: mysql_monitoring
     rules:
 
     - alert: MysqlDown

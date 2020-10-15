@@ -5,16 +5,15 @@ groups:
 
     - alert: security_apt
       expr: sum(apt_upgrades_pending{origin="Debian-Security:10/stable"}) > 1
-      labels: 
+      labels:
         severity: critical
       annotations:
         description: "There is a debian security update pending on {{ $labels.instance }}."
 
-  - name: HW_Monitoring
+  - name: hw_monitoring
     rules:
 
     - alert: HostOutOfDiskSpace
-      #fill in mountpoint what disk to meter
       expr: (node_filesystem_avail_bytes{mountpoint="/rootfs"}  * 100) / node_filesystem_size_bytes{mountpoint="/rootfs"} < 20
       for: 15m
       labels:
@@ -39,7 +38,7 @@ groups:
         description: "CPU load is > 80% on {{ $labels.instance }}"
 
 
-  - name: Network_Monitoring
+  - name: network_monitoring
     rules:
 
     - alert: HostUnusualNetworkThroughputIn
@@ -58,13 +57,13 @@ groups:
       annotations:
         description: "Host network interfaces are probably sending too much data (> 1.5 MB/s) on {{ $labels.instance }}"
 
-  - name: systemd
+  - name: systemd_monitoring
     rules:
 
     - alert: SystemdCheckup
       expr: node_systemd_system_running == 0
       for: 15m
-      labels: 
+      labels:
         severity: critical
       annotations:
         description: "SystemD service {{ $labels.name }} crashed on {{ $labels.instance }}"
