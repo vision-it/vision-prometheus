@@ -51,7 +51,7 @@ class vision_prometheus::exporter::mysql (
     ensure               => present,
     password_hash        => mysql::password($password.unwrap),
     max_user_connections => 2,
-   }
+  }
 
   mysql_grant { 'prometheus@localhost/*.*':
     ensure     => present,
