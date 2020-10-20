@@ -29,7 +29,7 @@ describe 'vision_prometheus::server' do
       its(:content) { is_expected.to match 'consul' }
       its(:content) { is_expected.to match 'alerting' }
       its(:content) { is_expected.to match 'rule_files' }
-    end   
+    end
     describe file('/etc/prometheus/rules.d/node.yml') do
       it { is_expected.to exist }
       its(:content) { is_expected.to match 'Puppet' }

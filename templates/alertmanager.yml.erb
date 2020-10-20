@@ -1,12 +1,11 @@
 # This file is managed by Puppet
-
 ---
 global:
   smtp_smarthost: '<%= @smtp_smarthost %>'
-  smtp_from: 'root@<%= @facts['fqdn'] %>'
+  smtp_from: 'prometheus@<%= @facts['fqdn'] %>'
   smtp_require_tls: false
 
-templates: 
+templates:
   - '/etc/prometheus/alertmanager_templates/*.tmpl'
 
 receivers:
@@ -15,10 +14,8 @@ receivers:
   - to: '<%= @smtp_receiver %>'
 
 route:
-  repeat_interval: 24h
-  receiver: vision    
+  repeat_interval: '24h'
+  receiver: 'vision'
   routes:
   - match:
-      severity: critical
-
-
+      severity: 'critical'

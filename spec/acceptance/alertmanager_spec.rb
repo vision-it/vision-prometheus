@@ -24,4 +24,7 @@ describe 'vision_prometheus::alertmanager' do
       its(:content) { is_expected.to match 'foobar.org' }
     end
   end
+  describe command('/usr/bin/amtool check-config /etc/prometheus/alertmanager.yml') do
+    its(:exit_status) { is_expected.to eq 0 }
+  end
 end
