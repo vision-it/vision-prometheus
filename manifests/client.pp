@@ -20,6 +20,7 @@ class vision_prometheus::client (
 ) {
 
   contain vision_prometheus::exporter::node
+  contain vision_prometheus::exporter::consul
 
   each ($exporters) | $exporter | {
     contain "vision_prometheus::exporter::${exporter}"

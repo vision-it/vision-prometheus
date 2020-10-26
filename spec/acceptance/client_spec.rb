@@ -8,8 +8,8 @@ describe 'vision_prometheus::client' do
         }
       FILE
 
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_failures: true)
+      # Systemd not functional
+      apply_manifest(pp, catch_failures: false)
     end
   end
 
