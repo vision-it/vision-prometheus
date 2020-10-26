@@ -4,7 +4,7 @@
 # Parameters
 # ----------
 #
-# @param _password Password of Prometheus SQL user
+# @param password Password of Prometheus SQL user
 #
 # Examples
 # --------
@@ -38,6 +38,7 @@ class vision_prometheus::exporter::mysql (
     require => Package['prometheus-mysqld-exporter'],
   }
 
+  # SQL Config for the prometheus user
   file { '/etc/mysql/prometheus.cnf':
     ensure  => file,
     owner   => root,

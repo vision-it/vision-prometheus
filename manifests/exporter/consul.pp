@@ -4,6 +4,9 @@
 # Parameters
 # ----------
 #
+# @param archive_source URL to tarbar
+# @param archive_checksum Sha256 of tarbar
+#
 # Examples
 # --------
 #
@@ -18,6 +21,7 @@ class vision_prometheus::exporter::consul (
 
 ) {
 
+  # Install Github Binary
   archive { '/tmp/consul-exporter.tar.gz' :
     ensure          => present,
     source          => $archive_source,

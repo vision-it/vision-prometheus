@@ -4,6 +4,7 @@
 # Parameters
 # ----------
 #
+# @param external_url URL for Prometheus server
 #
 # Examples
 # --------
@@ -44,6 +45,7 @@ class vision_prometheus::server (
     notify  => Service['prometheus'],
   }
 
+  # Overrides the entire rules directory with the Puppet config
   file { '/etc/prometheus/rules.d':
     ensure  => directory,
     recurse => true,

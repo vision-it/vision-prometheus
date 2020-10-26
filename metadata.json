@@ -2,8 +2,8 @@
   "name": "vision_prometheus",
   "version": "1.0.0",
   "author": "vision-it",
-  "source": "",
-  "summary": "",
+  "source": "https://github.com/vision-it/",
+  "summary": "Profile for Prometheus and Exporters",
   "license": "Apache-2.0",
   "dependencies": [
     {
