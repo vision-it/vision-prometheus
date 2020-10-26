@@ -41,7 +41,7 @@ class vision_prometheus::exporter::mysql (
   file { '/etc/mysql/prometheus.cnf':
     ensure  => file,
     owner   => root,
-    group   => root,
+    group   => prometheus,
     mode    => '0640',
     content => template('vision_prometheus/exporter/mysql.cnf.erb'),
     require => Package['prometheus-mysqld-exporter'],

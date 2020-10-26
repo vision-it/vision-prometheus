@@ -40,6 +40,7 @@ describe 'vision_prometheus::exporter::mysql' do
     end
     describe file('/etc/mysql/prometheus.cnf') do
       it { is_expected.to exist }
+      it{ is_expected.to be_grouped_into 'prometheus' }
       its(:content) { is_expected.to match 'Puppet' }
     end
   end
