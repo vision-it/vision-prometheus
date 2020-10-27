@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'vision_prometheus::exporter::mysql' do
@@ -12,7 +14,7 @@ describe 'vision_prometheus::exporter::mysql' do
         }->
           exec { '/bin/bash /etc/init.d/mysql start':
         }
-        FILE
+      FILE
       apply_manifest(setup, catch_failures: true)
 
       pp = <<-FILE
@@ -40,7 +42,7 @@ describe 'vision_prometheus::exporter::mysql' do
     end
     describe file('/etc/mysql/prometheus.cnf') do
       it { is_expected.to exist }
-      it{ is_expected.to be_grouped_into 'prometheus' }
+      it { is_expected.to be_grouped_into 'prometheus' }
       its(:content) { is_expected.to match 'Puppet' }
     end
   end

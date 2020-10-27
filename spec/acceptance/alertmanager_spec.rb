@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'vision_prometheus::alertmanager' do
@@ -22,6 +24,7 @@ describe 'vision_prometheus::alertmanager' do
       its(:content) { is_expected.to match 'Puppet' }
       its(:content) { is_expected.to match 'localhost' }
       its(:content) { is_expected.to match 'foobar.org' }
+      its(:content) { is_expected.to match 'sender.org' }
     end
   end
   describe command('/usr/bin/amtool check-config /etc/prometheus/alertmanager.yml') do
