@@ -6,6 +6,7 @@
 #
 # @param smtp_smarthost The smarthost and SMTP sender used for mail notifications
 # @param smtp_receiver The notification receivers
+# @param smtp_from The notification sender
 #
 # Examples
 # --------
@@ -18,6 +19,7 @@ class vision_prometheus::alertmanager (
 
   String $smtp_smarthost,
   String $smtp_receiver,
+  String $smtp_from,
 
 ) {
 

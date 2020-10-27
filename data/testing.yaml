@@ -1,3 +1,4 @@
 ---
 vision_prometheus::server::external_url: 'http://localhost:9090'
 vision_prometheus::alertmanager::smtp_receiver: 'test@foobar.org'
+vision_prometheus::alertmanager::smtp_from: 'test@sender.org'
