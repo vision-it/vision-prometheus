@@ -37,13 +37,11 @@ describe 'vision_prometheus::server' do
       its(:content) { is_expected.to match 'Puppet' }
       its(:content) { is_expected.to match 'groups:' }
     end
-    # rubocop:disable RSpec/RepeatedExampleGroupBody
     describe command('/usr/bin/promtool check config /etc/prometheus/prometheus.yml') do
       its(:exit_status) { is_expected.to eq 0 }
     end
     describe command('/usr/bin/promtool check rules /etc/prometheus/rules.d/*.yml') do
       its(:exit_status) { is_expected.to eq 0 }
     end
-    # rubocop:enable RSpec/RepeatedExampleGroupBody
   end
 end
