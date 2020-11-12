@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/vision-it/vision-prometheus.svg?branch=production)](https://travis-ci.org/vision-it/vision-prometheus)
 
-## Parameter
-
 ## Usage
 
 Include in the *Puppetfile*:

@@ -4,8 +4,8 @@
 # Parameters
 # ----------
 #
-# @param archive_source URL to tarbar
-# @param archive_checksum Sha256 of tarbar
+# @param archive_source URL to tarball
+# @param archive_checksum Sha256 of tarball
 #
 # Examples
 # --------
@@ -30,8 +30,7 @@ class vision_prometheus::exporter::consul (
     extract         => true,
     extract_command => 'tar xfz %s --wildcards --strip-components=1 "*/consul_exporter"',
     extract_path    => '/usr/local/bin',
-    creates         => '/usr/local/bin/consul_exporter',
-}
+ }
 
   file { '/etc/systemd/system/prometheus-consul-exporter.service':
     ensure  => present,
