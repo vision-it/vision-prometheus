@@ -1,6 +1,6 @@
 # vision-prometheus
 
-[![Build Status](https://travis-ci.org/vision-it/vision-prometheus.svg?branch=production)](https://travis-ci.org/vision-it/vision-prometheus)
+[![Build Status](https://travis-ci.com/vision-it/vision-prometheus.svg?branch=production)](https://travis-ci.com/vision-it/vision-prometheus)
 
 ## Usage
 
