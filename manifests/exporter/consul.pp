@@ -30,7 +30,7 @@ class vision_prometheus::exporter::consul (
     extract         => true,
     extract_command => 'tar xfz %s --wildcards --strip-components=1 "*/consul_exporter"',
     extract_path    => '/usr/local/bin',
- }
+  }
 
   file { '/etc/systemd/system/prometheus-consul-exporter.service':
     ensure  => present,
