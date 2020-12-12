@@ -1,0 +1,13 @@
+# This file is managed by Puppet
+[Unit]
+Description=Prometheus Redis Exporter
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/local/bin/redis_exporter -redis-only-metrics -redis.addr redis://redis.service.consul:6379
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectSystem=full
+
+[Install]
+WantedBy=default.target
