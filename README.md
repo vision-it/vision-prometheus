@@ -18,4 +18,3 @@ Include in a role/profile:
 contain ::vision_prometheus::server
 contain ::vision_prometheus::client
 ```
-
