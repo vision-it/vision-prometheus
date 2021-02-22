@@ -1,4 +1,4 @@
 # This file is managed by Puppet
 [client]
 user=prometheus
-password=<%= @mysql_password %>
+password=<%= @password.unwrap %>

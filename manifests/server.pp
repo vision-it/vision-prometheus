@@ -1,26 +1,25 @@
-# Class: vision_prometheus
+# Class: vision_prometheus::server
 # ===========================
 #
 # Parameters
 # ----------
 #
-# @param global_config Global Prometheus config as Hash
-# @param scrape_configs Scrape Configs Hashes in an Array
+# @param external_url URL for Prometheus server
 #
 # Examples
 # --------
 #
 # @example
-# contain ::vision_prometheus
+# contain ::vision_prometheus::server
 #
 
-class vision_prometheus (
+class vision_prometheus::server (
 
-  String $external_url,
-  Hash $global_config,
-  Array $scrape_configs,
+  String $external_url = "${::fqdn}:9090",
 
 ) {
+
+  contain vision_prometheus::alertmanager
 
   package { 'prometheus':
     ensure => present,
@@ -46,4 +45,14 @@ class vision_prometheus (
     notify  => Service['prometheus'],
   }
 
+  # Overrides the entire rules directory with the Puppet config
+  file { '/etc/prometheus/rules.d':
+    ensure  => directory,
+    recurse => true,
+    purge   => true,
+    source  => 'puppet:///modules/vision_prometheus/rules.d',
+    mode    => '1755',
+    require => Package['prometheus'],
+    notify  => Service['prometheus'],
+  }
 }

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'hiera'
 
-describe 'vision_prometheus' do
+describe 'vision_prometheus::alertmanager' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do

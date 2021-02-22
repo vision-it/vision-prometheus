@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'hiera'
 
-describe 'vision_prometheus::exporter::node' do
+describe 'vision_prometheus::client' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do

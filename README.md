@@ -1,8 +1,6 @@
 # vision-prometheus
 
-[![Build Status](https://travis-ci.org/vision-it/vision-prometheus.svg?branch=production)](https://travis-ci.org/vision-it/vision-prometheus)
-
-## Parameter
+[![Build Status](https://travis-ci.com/vision-it/vision-prometheus.svg?branch=production)](https://travis-ci.com/vision-it/vision-prometheus)
 
 ## Usage
 
@@ -17,6 +15,6 @@ mod 'vision_prometheus',
 Include in a role/profile:
 
 ```puppet
-contain ::vision_prometheus
+contain ::vision_prometheus::server
+contain ::vision_prometheus::client
 ```
-

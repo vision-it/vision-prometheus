@@ -1,16 +1,20 @@
 {
   "name": "vision_prometheus",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "vision-it",
-  "source": "",
-  "summary": "",
+  "source": "https://github.com/vision-it/",
+  "summary": "Profile for Prometheus and Exporters",
   "license": "Apache-2.0",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">= 10.0.0 < 11.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "9",
         "10"
       ]
     }
