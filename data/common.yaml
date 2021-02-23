@@ -3,8 +3,8 @@ vision_prometheus::alertmanager::smtp_smarthost: 'localhost:25'
 vision_prometheus::exporter::consul::archive_source: 'https://github.com/prometheus/consul_exporter/releases/download/v0.7.1/consul_exporter-0.7.1.linux-amd64.tar.gz'
 vision_prometheus::exporter::consul::archive_checksum: '92ffd37fb5f2350df21e7a688c28e7bb2882c309f613400eafdc411c818ec048'
 
-vision_prometheus::exporter::redis::archive_source: 'https://github.com/oliver006/redis_exporter/releases/download/v1.14.0/redis_exporter-v1.14.0.linux-amd64.tar.gz'
-vision_prometheus::exporter::redis::archive_checksum: '38c528e1b8b77ddd97f524ab986b84bc82e5ce5023abcef911b7897088fdb4e8'
+vision_prometheus::exporter::redis::archive_source: 'https://github.com/oliver006/redis_exporter/releases/download/v1.17.1/redis_exporter-v1.17.1.linux-amd64.tar.gz'
+vision_prometheus::exporter::redis::archive_checksum: 'd424d0524867a1fc503e7335f0856d72f125a4331b759bc3c61cdcbbb80ae50e'
 
 lookup_options:
   'vision_prometheus::exporter::mysql::password':
