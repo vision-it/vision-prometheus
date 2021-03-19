@@ -4,6 +4,7 @@ Description=Prometheus Consul Exporter
 After=syslog.target network.target
 
 [Service]
+Restart=always
 ExecStart=/usr/local/bin/consul_exporter
 ProtectHome=true
 ProtectKernelTunables=true
