@@ -48,6 +48,7 @@ class vision_prometheus::exporter::mysql (
     require => Package['prometheus-mysqld-exporter'],
   }
 
+  # The user and grant used for the exporter
   mysql_user{ 'prometheus@localhost':
     ensure               => present,
     password_hash        => mysql::password($password.unwrap),

@@ -19,9 +19,11 @@ class vision_prometheus::client (
 
 ) {
 
+  # Default exporters that should be on every node
   contain vision_prometheus::exporter::node
   contain vision_prometheus::exporter::consul
 
+  # Additional exporters via array
   each ($exporters) | $exporter | {
     contain "vision_prometheus::exporter::${exporter}"
   }
