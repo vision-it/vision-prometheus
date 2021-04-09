@@ -1,0 +1,11 @@
+# This file is managed by Puppet
+groups:
+  - name: consul_monitoring
+    rules:
+    - alert: ConsulServiceCritical
+      expr: consul_health_service_status{status="critical"} > 0
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        description: "Consul service is critical {{ $labels.instance }}"
